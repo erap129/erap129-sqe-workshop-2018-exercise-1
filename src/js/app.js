@@ -9,7 +9,7 @@ $(document).ready(function () {
         let parsedCode = parseCode(codeToParse);
         $('#parsedCode').val(JSON.stringify(parsedCode, null, 2));
         activateStart();
-        let tableArr = parseFunction(codeToParse)
+        let tableArr = parseFunction(codeToParse);
         createTable(tableArr);
     });
 });
@@ -22,11 +22,8 @@ function createTable(tableArr){
         for(var j = 0; j<5; j++)
             tds.push(document.createElement('td'));
         var texts = [];
-        texts.push(document.createTextNode(tableArr[i].line));
-        texts.push(document.createTextNode(tableArr[i].type));
-        texts.push(document.createTextNode(tableArr[i].name));
-        texts.push(document.createTextNode(tableArr[i].condition));
-        texts.push(document.createTextNode(tableArr[i].value));
+        for (var property in tableArr[i])
+            texts.push(document.createTextNode(tableArr[i][property]));
         for(var j = 0; j<5; j++){
             tds[j].appendChild(texts[j]);
             tr.appendChild(tds[j]);
