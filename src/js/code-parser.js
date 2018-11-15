@@ -1,5 +1,6 @@
 import {parseCode} from './code-analyzer';
 import * as escodegen from 'escodegen';
+import * as esprima from 'esprima';
 
 class Row{
     constructor(line, type, name, condition, value){
@@ -54,7 +55,7 @@ function activateStart(){
 }
 function parseFunction(ast, isElse=false){
     if(start){
-        ast = parseCode(ast);
+        ast = esprima.parseScript(ast, {loc:true});
         start = false;
     }
     let line = ast.loc.start.line;
@@ -101,7 +102,10 @@ function parseFunction(ast, isElse=false){
         if(ast.body.constructor === Array){
             for(var row in ast.body){
                 parseFunction(ast.body[row]);
+
             }
+            if(ast.type == 'Program')
+                return rows;
         }
         else{
             parseFunction(ast.body);
