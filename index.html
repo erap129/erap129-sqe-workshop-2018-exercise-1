@@ -1,5 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+
+<!--the following css template was taken from : https://www.w3schools.com/css/tryit.asp?filename=trycss_table_fancy-->
+    <style>
+        #the_table {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        #the_table td, #the_table th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #the_table tr:nth-child(even){background-color: #f2f2f2;}
+
+        #the_table tr:hover {background-color: #ddd;}
+
+        #the_table th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
+
+
     <head>
         <meta charset="UTF-8">
 
@@ -41,8 +69,19 @@
                     </div>
                 </td>
                 <td>
-                    <div class="textAreaWrapper">
-                        <textarea id="parsedCode" title="Parse code"></textarea>
+                    <div class="textAreaWrapper" id="table_area">
+                        <table id="the_table">
+                            <thead>
+                                <tr>
+                                    <th>Line</th>
+                                    <th>Type</th>
+                                    <th>Name</th>
+                                    <th>Condition</th>
+                                    <th>Value</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table_body"></tbody>
+                        </table>
                     </div>
                 </td>
             </tr>
@@ -50,7 +89,9 @@
                 <td>
                     <div>
                         <button id="codeSubmissionButton">Parse code</button>
-                        <label id="testlabel">test</label>
+                    </div>
+                    <div>
+                        <textarea id="parsedCode" title="Parse code"></textarea>
                     </div>
                 </td>
                 <td>
