@@ -1,4 +1,3 @@
-import {parseCode} from './code-analyzer';
 import * as escodegen from 'escodegen';
 import * as esprima from 'esprima';
 
@@ -81,7 +80,7 @@ var parseFunctions = {
     'ForStatement': parseForStatement
 }
 
-function parseFunction(ast){
+function parseFunction(ast, isElse=false){
     if(ast == null)
         return;
     if(typeof ast == "string"){
@@ -89,7 +88,7 @@ function parseFunction(ast){
         rows = [];
     }
     if(parseFunctions.hasOwnProperty(ast.type)){
-        parseFunctions[ast.type](ast);
+        parseFunctions[ast.type](ast, isElse);
     }
     if(ast.hasOwnProperty('body')){
         if(ast.body.constructor === Array){

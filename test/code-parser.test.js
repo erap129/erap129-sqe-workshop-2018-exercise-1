@@ -54,4 +54,35 @@ describe('The javascript line detector', () => {
         );
     });
 
+    it('is parsing an else if statement', () => {
+        var rows = []
+        rows.push(new Row(1, 'if statement', '', 'y < x', ''));
+        rows.push(new Row(2, 'assignment expression', 'y', '', 'x'));
+        rows.push(new Row(3, 'else if statement', '', 'y > x', ''));
+        rows.push(new Row(4, 'assignment expression', 'x', '', 'y'));
+        assert.deepEqual(
+            parseFunction('if(y < x){\n' +
+                '  y = x;}\n' +
+                'else if(y > x){\n' +
+                '  x = y;\n' +
+                '}'),
+            rows
+        );
+    });
+
+    it('is parsing a simple function with a return statement', () => {
+        var rows = []
+        rows.push(new Row(1, 'function declaration', 'myFunc', '', ''));
+        rows.push(new Row(1, 'variable declaration', 'theObject', '', ''));
+        rows.push(new Row(2, 'assignment expression', 'theObject', '', '\'Toyota\''));
+        rows.push(new Row(3, 'return statement', '', '', 'theObject'));
+        assert.deepEqual(
+            parseFunction('function myFunc(theObject) {\n' +
+                '  theObject = \'Toyota\';\n' +
+                '  return theObject;\n' +
+                '}'),
+            rows
+        );
+    });
+
 });
