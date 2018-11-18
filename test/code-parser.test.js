@@ -1,6 +1,8 @@
 import assert from 'assert';
 import {parseFunction} from '../src/js/code-parser';
+import {activateStart} from '../src/js/code-parser';
 import {Row} from '../src/js/code-parser';
+import {rows} from '../src/js/code-parser';
 
 describe('The javascript line detector', () => {
 
@@ -80,6 +82,24 @@ describe('The javascript line detector', () => {
             parseFunction('function myFunc(theObject) {\n' +
                 '  theObject = \'Toyota\';\n' +
                 '  return theObject;\n' +
+                '}'),
+            rows
+        );
+    });
+
+    it('is testing activateStart', () => {
+        rows.push(1);
+        activateStart();
+        assert.deepEqual(rows, []);
+    });
+
+    it('is parsing a simple while statement', () => {
+        var rows = []
+        rows.push(new Row(1, 'while statement', '', 'x < 3', ''));
+        rows.push(new Row(2, 'assignment expression', 'x', '', 'x + 1'));
+        assert.deepEqual(
+            parseFunction('while(x<3) {\n' +
+                '  x=x+1;\n' +
                 '}'),
             rows
         );

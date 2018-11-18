@@ -12,9 +12,7 @@ class Row{
 }
 
 var rows = [];
-var start = true;
 function activateStart(){
-    start = true;
     rows = [];
 }
 
@@ -31,9 +29,8 @@ function parseIdentifier(ast){
 }
 
 function parseVariableDeclaration(ast){
-    let line = ast.loc.start.line;
     for(var decl in ast.declarations)
-        parseFunction(ast.declarations[decl])
+        parseFunction(ast.declarations[decl]);
 }
 
 function parseWhileStatement(ast){
@@ -69,6 +66,25 @@ function parseReturnStatement(ast){
     rows.push(new Row(line, 'return statement', '', '', escodegen.generate(ast.argument)));
 }
 
+function parseBody(ast, rows){
+    if(ast.body.constructor === Array){
+        for(var row in ast.body)
+            parseFunction(ast.body[row]);
+        if(ast.type == 'Program')
+            return rows;
+    }
+    else
+        parseFunction(ast.body);
+}
+
+function checkString(ast){
+    if(typeof ast == 'string'){
+        ast = esprima.parseScript(ast, {loc:true});
+        rows = [];
+    }
+    return ast;
+}
+
 var parseFunctions = {
     'FunctionDeclaration': parseFunctionDeclaration,
     'Identifier': parseIdentifier,
@@ -78,33 +94,23 @@ var parseFunctions = {
     'ExpressionStatement': parseExpressionStatement,
     'ReturnStatement': parseReturnStatement,
     'ForStatement': parseForStatement
-}
+};
 
 function parseFunction(ast, isElse=false){
     if(ast == null)
         return;
-    if(typeof ast == "string"){
-        ast = esprima.parseScript(ast, {loc:true});
-        rows = [];
-    }
-    if(parseFunctions.hasOwnProperty(ast.type)){
+    ast = checkString(ast);
+    if(parseFunctions.hasOwnProperty(ast.type))
         parseFunctions[ast.type](ast, isElse);
-    }
     if(ast.hasOwnProperty('body')){
-        if(ast.body.constructor === Array){
-            for(var row in ast.body){
-                parseFunction(ast.body[row]);
-            }
-            if(ast.type == 'Program')
-                return rows;
-        }
-        else{
-            parseFunction(ast.body);
-        }
+        let res = parseBody(ast, rows);
+        if(ast.type == 'Program')
+            return res;
     }
 }
 
 export {parseFunction};
 export {activateStart};
 export {Row};
+export {rows};
 

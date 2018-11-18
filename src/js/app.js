@@ -24,12 +24,12 @@ function createTable(tableArr){
         var texts = [];
         for (var property in tableArr[i])
             texts.push(document.createTextNode(tableArr[i][property]));
-        for(var j = 0; j<5; j++){
-            tds[j].appendChild(texts[j]);
-            tr.appendChild(tds[j]);
+        for(var k = 0; k<5; k++){
+            tds[k].appendChild(texts[k]);
+            tr.appendChild(tds[k]);
         }
         table_body.appendChild(tr);
     }
-    table_body.setAttribute("id", "table_body");
-    document.getElementById("the_table").replaceChild(table_body, document.getElementById('table_body'));
+    table_body.setAttribute('id', 'table_body');
+    document.getElementById('the_table').replaceChild(table_body, document.getElementById('table_body'));
 }
