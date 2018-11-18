@@ -43,22 +43,20 @@ function parseForStatement(ast){
     rows.push(new Row(line, 'for statement', '', escodegen.generate(ast.init) + ';' + escodegen.generate(ast.test) + ';' + escodegen.generate(ast.update), ''));
 }
 
-function parseIfStatement(ast, isElse=false){
+function parseIfStatement(ast, isElse){
     let line = ast.loc.start.line;
     let ifStr = 'if statement';
     if(isElse)
         ifStr = 'else if statement';
     rows.push(new Row(line, ifStr, '', escodegen.generate(ast.test), ''));
     parseFunction(ast.consequent);
-    if(ast.hasOwnProperty('alternate')){
-        parseFunction(ast.alternate, isElse=true);
-    }
+    parseFunction(ast.alternate, true);
 }
 
 function parseExpressionStatement(ast){
     let line = ast.loc.start.line;
-    if(ast.expression.type == 'AssignmentExpression')
-        rows.push(new Row(line, 'assignment expression', ast.expression.left.name, '', escodegen.generate(ast.expression.right)));
+    // if(ast.expression.type == 'AssignmentExpression')
+    rows.push(new Row(line, 'assignment expression', ast.expression.left.name, '', escodegen.generate(ast.expression.right)));
 }
 
 function parseReturnStatement(ast){
