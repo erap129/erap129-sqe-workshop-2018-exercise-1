@@ -105,4 +105,44 @@ describe('The javascript line detector', () => {
         );
     });
 
+    it('is parsing an if and than an else if statement', () => {
+        var rows = []
+        rows.push(new Row(1, 'if statement', '', 'y < x', ''));
+        rows.push(new Row(2, 'assignment expression', 'y', '', 'x'));
+        rows.push(new Row(3, 'else if statement', '', 'y > x', ''));
+        rows.push(new Row(4, 'assignment expression', 'x', '', 'y'));
+        rows.push(new Row(5, 'if statement', '', 'y == x', ''));
+        rows.push(new Row(6, 'assignment expression', 'y', '', 'x * 2'));
+        assert.deepEqual(
+            parseFunction('if(y < x){\n' +
+                '  y = x;}\n' +
+                'else if(y > x){\n' +
+                '  x = y;}\n' +
+                'if(y == x){\n' +
+                '  y = x*2;\n' +
+                '}'),
+            rows
+        );
+    });
+
+    it('is parsing an if and than an else if statement', () => {
+        var rows = []
+        rows.push(new Row(1, 'if statement', '', 'y < x', ''));
+        rows.push(new Row(2, 'assignment expression', 'y', '', 'x'));
+        rows.push(new Row(3, 'else if statement', '', 'y > x', ''));
+        rows.push(new Row(4, 'assignment expression', 'x', '', 'y'));
+        rows.push(new Row(5, 'if statement', '', 'y == x', ''));
+        rows.push(new Row(6, 'assignment expression', 'y', '', 'x * 2'));
+        assert.deepEqual(
+            parseFunction('if(y < x){\n' +
+                '  y = x;}\n' +
+                'else if(y > x){\n' +
+                '  x = y;}\n' +
+                'if(y == x){\n' +
+                '  y = x*2;\n' +
+                '}'),
+            rows
+        );
+    });
+
 });
